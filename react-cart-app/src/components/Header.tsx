@@ -67,7 +67,6 @@ const Header: React.FC<HeaderProps> = ({
           )}
         </button>
 
-        {isCartOpen && <CartDropdown />}
       </div>
     </div>
   </header>
