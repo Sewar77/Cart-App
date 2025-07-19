@@ -28,7 +28,6 @@ function AppContent() {
   );
 }
 
-// This component wraps the entire app with CartProvider.
 function App() {
   return (
     <CartProvider>
