@@ -1,21 +1,39 @@
-import logo from "./logo.svg";
+import React, { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import ProductList from "./components/ProductList";
-import { useState } from "react";
 import Footer from "./components/Footer";
-function App() {
-  const [cart, setCart] = useState<number[]>([]);
-  const handleAddToCart = (productId: number) => {
-    setCart((prevCart) => [...prevCart, productId]);
+import { CartProvider, useCart } from "./context/CartContext";
+import CartDropdown from "./components/CartDropdown";
+
+function AppContent() {
+  const { addToCart, getCartCount } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const handleAddToCart = (product: any) => {
+    addToCart({ ...product, quantity: 1 });
   };
-  const cartCount = cart.length;
+
   return (
-    <div className="App">
-      <Header cartCount={cartCount} onCartClick={() => {}} />
+    <>
+      <Header
+        cartCount={getCartCount()}
+        onCartClick={() => setIsCartOpen((prev) => !prev)}
+        isCartOpen={isCartOpen}
+      />
+      {isCartOpen && <CartDropdown />}
       <ProductList onAddToCart={handleAddToCart} />
       <Footer />
-    </div>
+    </>
+  );
+}
+
+// This component wraps the entire app with CartProvider.
+function App() {
+  return (
+    <CartProvider>
+      <AppContent />
+    </CartProvider>
   );
 }
 
